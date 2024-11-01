@@ -1,0 +1,116 @@
+﻿@model IEnumerable<EmployeeManagement.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Employee List</h1>
+
+<p class="d-flex justify-content-end mb-2">
+    <a asp-action="Create" asp-controller="Employees" class="btn btn-primary">Create New</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JoiningDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/Pictures/@item.Picture" style="width:60px;" />
+                </td>
+                <td>@item.Gender</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @(item.JoiningDate?.ToString("yyyy-MM-dd"))
+                </td>
+                <td>
+                    @(item.Salary?.ToString("0.00"))
+                </td>
+
+                <td>
+                    @(item.IsActive ? "Yes" : "No")
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Employees" asp-route-id="@item.EmployeeId" class="btn btn-secondary">Edit</a>
+                    <button type="button" class="btn btn-danger del" data-pk="@item.EmployeeId">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="6">
+                    <h4>Attendances</h4>
+                    <table class="table table-bordered">
+                        <thead class="table-bordered">
+                            <tr>
+                                <th>Date</th>
+                                <th>InTime</th>
+                                <th>OutTime</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var a in item.Attendances)
+                            {
+                                <tr>
+                                    <td>@a.AttendanceDate?.ToString("yyyy-MM-dd")</td>
+                                    <td>@a.InTime</td>
+                                    <td>@a.OutTime</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(() => {
+            $('.del').click(function () {
+                let eid = $(this).data('pk');
+                let trD = $(this).closest('tr');
+                let trS = trD.next();
+                if (confirm("are you sure to delete?\nEmployee with its all Attendances will be deleted.")) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/Employees/Delete/' + eid,
+                        dataType: 'json',
+                        success: r => {
+                            if (r.success && r.success == true) {
+                                trD.remove();
+                                trS.remove();
+                            }
+                        }
+                    })
+                }
+            });
+        });
+    </script>
+}

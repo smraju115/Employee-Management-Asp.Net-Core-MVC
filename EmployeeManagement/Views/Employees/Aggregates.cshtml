@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Employee>
+@{
+    ViewData["Title"] = "Aggregates";
+}
+
+<h1>Aggregates</h1>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Aggregate Function</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Count</td>
+                    <td>@Model.Count()</td>
+                </tr>
+                <tr>
+                    <td>Max (Price)</td>
+                    <td>@Model.Max(e => e.Salary)</td>
+                </tr>
+                <tr>
+                    <td>Min (Price)</td>
+                    <td>@Model.Min(e => e.Salary)</td>
+                </tr>
+                <tr>
+                    <td>Average (Price)</td>
+                    <td>@Model.Average(e => e.Salary)</td>
+                </tr>
+                <tr>
+                    <td>Sum (Price)</td>
+                    <td>@Model.Sum(e => e.Salary)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

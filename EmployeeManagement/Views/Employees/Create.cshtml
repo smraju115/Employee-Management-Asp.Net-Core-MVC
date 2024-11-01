@@ -1,0 +1,103 @@
+﻿@model EmployeeInputModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Create" asp-controller="Employees" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployeeName" class="control-label"></label>
+                <input asp-for="EmployeeName" class="form-control" />
+                <span asp-validation-for="EmployeeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <select asp-items="@Html.GetEnumSelectList<Gender>()" asp-for="Gender" class="form-select"></select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JoiningDate" class="control-label"></label>
+                <input asp-for="JoiningDate" class="form-control" type="date" />
+                <span asp-validation-for="JoiningDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Salary" class="control-label"></label>
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture" class="control-label"></label>
+                <input asp-for="Picture" class="form-control" type="file"/>
+                <span asp-validation-for="Picture" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <div class="form-group d-flex justify-content-between align-items-center">
+                    <h4>Attendances</h4>
+                    <div class="mb-1">
+                        <button formnovalidate type="submit" name="operation" value="add" class="btn btn-primary">Add</button>
+
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>InTime</th>
+                            <th>OutTime</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(var i = 0; i < Model.Attendances.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input asp-for="@Model.Attendances[i].AttendanceDate" class="form-control" type="date" />
+                                    <span asp-validation-for="@Model.Attendances[i].AttendanceDate" class="text-danger"></span>
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.Attendances[i].InTime" class="form-control" type="text" />
+                                    <span asp-validation-for="@Model.Attendances[i].InTime" class="text-danger"></span>
+                                </td>
+                                <td>
+                                    <input asp-for="@Model.Attendances[i].OutTime" class="form-control" type="text" />
+                                    <span asp-validation-for="@Model.Attendances[i].OutTime" class="text-danger"></span>
+                                </td>
+
+                                <td>
+                                    <button formnovalidate type="submit" name="operation" value="del_@i" class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="form-group mb-1">
+                <button type="submit" name="operation" value="insert" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

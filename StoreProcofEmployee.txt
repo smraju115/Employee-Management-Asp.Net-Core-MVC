@@ -1,0 +1,36 @@
+//1 
+ string sql = @"CREATE PROCEDURE InsertAttendance 
+      @ad DATETIME,
+      @intime TIME, 
+      @outtime TIME, 
+      @eid INT 
+      AS 
+      INSERT INTO 
+      Attendances (AttendanceDate, InTime, OutTime, EmployeeId) 
+      VALUES (@ad, @intime, @outtime, @eid)
+      RETURN 0";
+ migrationBuilder.Sql(sql);
+ //2
+ sql = @"CREATE PROCEDURE DeleteAttendanceOfEmployee 
+         @eid INT 
+         AS 
+         DELETE Attendances 
+         WHERE EmployeeId = @eid 
+         RETURN 0";
+ migrationBuilder.Sql(sql);
+
+ //3
+ sql = @"CREATE PROCEDURE DeleteEmployee 
+         @eid INT 
+         AS 
+         DELETE Employees 
+         WHERE EmployeeId = @eid 
+         RETURN 0";
+ migrationBuilder.Sql(sql);
+
+
+==============<<<<<<<<<<<<<<<===================
+ migrationBuilder.Sql("DROP PROCEDURE InsertAttendance");
+ migrationBuilder.Sql("DROP PROCEDURE DeleteAttendanceOfEmployee");
+ migrationBuilder.Sql("DROP PROCEDURE DeleteEmployee");
+
