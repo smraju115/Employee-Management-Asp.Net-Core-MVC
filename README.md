@@ -14,6 +14,7 @@ This project demonstrates how to manage employee data along with their related d
 - Master-Details Form Handling
 - CRUD Operations with Validation
 - Strongly Typed Views
+- Stroe Procedure Used
 - Razor Pages
 - Bootstrap UI (Optional)
 - Client-side + Server-side validation
